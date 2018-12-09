@@ -34,3 +34,7 @@ func regionToString(region: Region) -> String {
         case .oceania: return "oce"
     }
 }
+
+func regionsToString(regions: [Region]) -> String {
+    return (regions.map { regionToString(region: $0) }).joined(separator: ",")
+}

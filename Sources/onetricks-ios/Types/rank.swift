@@ -16,3 +16,7 @@ func rankToString(rank: Rank) -> String {
         case .master: return "m"
     }
 }
+
+func ranksToString(ranks: [Rank]) -> String {
+    return (ranks.map { rankToString(rank: $0) }).joined(separator: ",")
+}
