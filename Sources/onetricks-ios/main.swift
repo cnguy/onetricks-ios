@@ -40,6 +40,7 @@ class API {
         task.resume()
     }
 
+    // Example: http://api.onetricks.net/match-history?championId=92&ranks=C,M&regions=na,kr,euw,eune,lan,las,br,jp,tr,ru,oce&roleNumbers=1,3,2,4,5
     public func getMatchHistory(championId: Int, ranks: Array<Rank>, regions: Array<Region>, roles: Array<Role>, handler: @escaping (Any?, String?) -> Void) {
 
     }
