@@ -52,6 +52,11 @@ class MatchHistoryItem {
         self.summonerSpells = summonerSpells
         self.perks = perks
     }
+
+    // Heavily simplified at the moment
+    public func toString() -> String {
+        return "MatchHistoryItem(\(self.gameId), \(regionToString(region: self.region)), \(self.accountId), \(self.championId))"
+    }
 }
 
 class KDA {

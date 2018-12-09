@@ -2,6 +2,17 @@ enum Role {
     case top, jungle, middle, bot_carry, bot_support
 }
 
+func stringToRole(string: String) -> Role {
+    switch string {
+        case "TOP": return .top
+        case "JUNGLE": return .jungle
+        case "MID": return .middle
+        case "BOT_CARRY": return .bot_carry
+        case "BOT_SUPPORT": return .bot_support
+        default: fatalError("Invalid role \(string)")
+    }
+}
+
 func numberToRole(number: Int) -> Role {
     switch number {
         case 1: return .top
