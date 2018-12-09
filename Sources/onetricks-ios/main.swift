@@ -2,11 +2,8 @@
 import Foundation
 
 class API {
-    public init() {}
-
-    class func getOneTricks(handler: @escaping (Array<OneTrick>?, String?) -> Void) {
+    static func getOneTricks(handler: @escaping (Array<OneTrick>?, String?) -> Void) {
         let url = URL(string: "http://api.onetricks.net/one-tricks")!
-
         let session = URLSession(configuration: URLSessionConfiguration.default)
         let task = session.dataTask(with: url) {(data, response, error) in
             guard let data = data else { return }
@@ -23,19 +20,24 @@ class API {
                     rank: stringToRank(string: $0["rank"] as! String),
                     region: stringToRegion(string: $0["region"] as! String)
                 )}
-                for oneTrick in oneTricks {
-                    print(oneTrick.toString())
-                }
+                handler(oneTricks, nil)
             } catch let parsingError {
-                print("Error", parsingError)
+                handler(nil, "Error: \(parsingError)")
             }
         }
         
         task.resume()
     }
 
-    public func getStaticChampionIdByName(name: String, handler: @escaping (Any?, String?) -> Void) {
+    static func getStaticChampionIdByName(name: String, handler: @escaping (Int?, String?) -> Void) {
+        let url = URL(string: "http://api.onetricks.net/static-champion-by-name/" + name + "/id")!
+        let session = URLSession(configuration: URLSessionConfiguration.default)
+        let task = session.dataTask(with: url) {(data, response, error) in
+            guard let data = data else { return }
+            handler(Int(String(data: data, encoding: .utf8)!), nil)
+        }
 
+        task.resume()
     }
 
     public func getMatchHistory(championId: Int, ranks: Array<Rank>, regions: Array<Region>, roles: Array<Role>, handler: @escaping (Any?, String?) -> Void) {
@@ -43,11 +45,21 @@ class API {
     }
 }
 
-var api = API()
-print(api)
 func handler(a: Array<OneTrick>?, b: String?) {
-
+    if a != nil {
+        for oneTrick in a! {
+            print(oneTrick.toString())
+        }
+    } else {}
 }
+func handler2(a: Int?, b: String?) {
+    if a != nil {
+        print(a!)
+    } else {}
+}
+
+API.getStaticChampionIdByName(name: "Kennen", handler: handler2)
 API.getOneTricks(handler: handler)
+
 // There's no fucking async/await?
 while true {}
